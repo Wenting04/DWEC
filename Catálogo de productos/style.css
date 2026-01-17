@@ -8,8 +8,8 @@
 
 form{
     background-color: var(--color-box);
-    display: none;
     flex-direction: column;
+    display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
@@ -36,4 +36,53 @@ button:hover{
 
 #archivo{
     margin: 10px;
+}
+
+div{
+    display: flex;
+    justify-content: center;  /* centra horizontalmente */
+    align-items: center;      /* centra verticalmente */
+}
+
+img{
+    max-height: 150px;        /* tamaño máximo vertical */
+    width: auto;             /* mantiene proporción */
+}
+
+/* Para que todos los elementos con class="hidden" estén ocultos */
+.hidden{
+    display: none; /* oculto por defecto */
+}
+
+.producto {
+    display: flex;
+}
+
+.datos{
+    background-color: var(--color-box);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    padding: 1rem;
+    margin: 5px;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Color de letras de lo que está mal */
+#error{
+    color: red;
+    font-weight: bold;
+}
+
+
+table{
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid #555;
 }
