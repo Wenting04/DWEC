@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!-- Nuestra primera tarea relacionada con los eventos implica una <button>
+    Que, cuando se hace clic, actualiza su etiqueta de texto.
+    El HTML no debe cambiarse; solo el JavaScript. 
+    Para completar la tarea,
+    cree un oyente de eventos que provoque el texto dentro del botón (btn)
+    para cambiar cuando se hace clic 
+    y volver a cambiar cuando se hace clic de nuevo. -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento 1 - Evento click en el botón para cambio de color</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 100px;
+            transition: background-color 0.5s;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button>Pulsa para cambiar de color</button>
+
+    <script>
+        // Para obtener todos los elementos <button>
+        const btn = document.querySelector("button");
+
+        // Función que da num random
+        function random(num) {
+            return Math.floor(Math.random() * (num + 1));
+        }
+
+        function cambiarFondo(){
+            // Almacena un rgb aleatorio
+            const rndCol = `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
+            document.body.style.backgroundColor = rndCol;
+        }
+
+        // Cuando click al botón, cambia de color
+        btn.addEventListener("click", cambiarFondo);
+        //btn.removeEventListener("click", cambiarFondo);
+    </script>
+</body>
+</html>

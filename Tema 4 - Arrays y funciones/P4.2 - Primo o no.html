@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Números primos des 1 al número que insertes</title>
+    <style></style>
+  </head>
+  <body>
+    <h1>Primos del 1 al número que insertes</h1>
+    <input type="number" id="num">
+    <button id="btnCalcular">Calcular primos</button>
+    <div id="resultado"></div>
+
+    <script>
+      function esPrimo(num) {
+        // Inicia bucle desde 2 hasta (num - 1)
+        /* Queremos verificar si el resto de la división
+          (num entre algún nº que no sea 1 y él mismo) es 0
+        En caso de ser 0, significa que sí se puede dividir, es decir, es múltiplo de más nº, por tanto, no primo
+        Se hace (num - 1 ) pq queremos excluir el propio num
+        En este for, no verificamos ni el 1, ni el propio num, sólo comprobamos nº entre ellos */
+        for (var i = 2; i < num; i++) {
+
+          // Calcular si resto de división entre num / i es 0, en caso positivo, no es primo (pq sería múltiplo de más de 2 nº)
+          if (num % i === 0) {
+            return false;
+          }
+
+        }
+
+        // Si es 1 o menor, no válido (no primo)
+        if (num <= 1) {
+          return false;
+        }
+
+        return true;
+      }
+
+      function calcPrimos(){
+        //Obtener
+        const num = parseInt(document.getElementById("num").value.trim());
+
+        const resultado = document.getElementById("resultado");
+
+        if (isNaN(num)){
+          resultado.textContent = "Por favor, ingrese un número";
+          return false;
+        }
+
+        let texto = "";
+        for (let i = 1; i <= num; i++) {
+          if (esPrimo(i)) {
+            texto += i + " ";
+          }
+        }
+
+        resultado.textContent = texto;
+      }
+
+      // Evento para aparecer por botón
+      document.getElementById("btnCalcular").addEventListener("click", calcPrimos);
+    </script>
+  </body>
+</html>

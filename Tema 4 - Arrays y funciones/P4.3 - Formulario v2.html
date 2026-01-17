@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario v2</title>
+    <style>
+        body{
+            background-color: #e9e9e9;
+            display: flex;
+            justify-content: center; /* horizontal */
+            align-items: center; /* vertical */
+            height: 100vh; /* ocupar toda la pantalla */
+        }
+
+        form{
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            border-radius: 10px;
+            padding: 2rem 5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        button{
+            display: block;
+            border-radius: 5px;
+            border: none;
+            background-color: #e9e9e9;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.2s;
+            margin: 10px auto; /* auto a los lados centra horizontalmente */
+        }
+
+        button:hover{
+            background-color: #d5d5d5;
+            transform: scale(0.9); /* se hace un 5% más pequeño */
+        }
+    </style>
+</head>
+<!-- Diseña una aplicación web con las siguientes características:
+
+Un formulario con tres campos:
+
+Título del libro
+Autor
+Año de publicación
+Un botón Guardar que:
+
+Valide que el título no esté vacío.
+Guarde la información del libro en una colección (Set o Map).
+Un botón Mostrar libros que:
+    Recorra la colección.
+    Muestre en pantalla todos los libros registrados, ordenados por título. -->
+<body>
+    <form>
+        <h2>Formualrio v2</h2>
+        <label>Título del libro</label>
+        <input type="text" name="titulo" id="titulo"><br>
+        <label>Autor</label>
+        <input type="text" name="autor" id="autor"><br>
+        <label>Año de publicación</label>
+        <input type="number" name="anio" id="anio"><br>
+        <button type="submit" name="guardar" id="guardar">Guardar</button>
+        <div id="error"></div>
+        <button type="button" name="mostrar" id="mostrar">Mostrar libros</button>
+        <div id="result"></div>
+    </form>
+
+    <script>
+        // Guardar libros usando Set o Map
+        /* SET
+            // Crear un Set
+            const miSet = new Set();
+
+            // Agregar elementos
+            miSet.add(10);
+            miSet.add(20);
+            miSet.add(10); // NO se agrega porque ya existe
+
+            console.log(miSet); // Set { 10, 20 }
+
+            // Verificar si existe un elemento
+            console.log(miSet.has(20)); // true
+
+            // Eliminar un elemento
+            miSet.delete(10);
+
+            // Recorrer un Set
+            for (let valor of miSet) {
+                console.log(valor);
+            }
+
+            // Tamaño
+            console.log(miSet.size); // 1
+        */
+
+        /* MAP
+            // Crear un Map
+            const miMap = new Map();
+
+            // Agregar elementos
+            miMap.set('nombre', 'Juan');
+            miMap.set('edad', 30);
+
+            // Acceder a un valor
+            console.log(miMap.get('nombre')); // "Juan"
+
+            // Verificar si existe una clave
+            console.log(miMap.has('edad')); // true
+
+            // Eliminar
+            miMap.delete('edad');
+
+            // Recorrer un Map
+            for (let [clave, valor] of miMap) {
+            console.log(clave, valor);
+            }
+
+            // Tamaño
+            console.log(miMap.size); // 1
+        */
+
+        // Guardar libros con Map
+        const libros = new Map();
+
+        function aniadir(event){
+            event.preventDefault(); // Evita recargar FORMUALRIO cuando se hace clic
+
+            // Obtener
+            const titulo = document.getElementById("titulo").value.trim();
+            const autor = document.getElementById("autor").value.trim();
+            const anio = document.getElementById("anio").value.trim();
+
+            // Validar
+            if (titulo === ""){
+                vacio(true);
+                return false; // Si titulo está vacío, devuelve false
+            } else {
+                vacio(false);
+            }
+
+            console.log("Validación correcta");
+
+            // Añadir libro
+            libros.set(titulo, {autor: autor, anio: anio});
+
+            // Limpiamos formulario
+            document.getElementById("titulo").value = "";
+            document.getElementById("autor").value = "";
+            document.getElementById("anio").value = "";
+        }
+
+        function vacio(correcto){
+            const error = document.getElementById("error");
+
+            if (correcto == true){
+                // Si título vacío, imprimir error
+                error.innerHTML = `Error: Título vacío`;
+            } else { // Si título NO vacío, no mostrar nada
+                error.innerHTML = ``;
+            }
+        }
+
+        // Recorre array facturas e imprime en el área y actualiza contador de facturas y de errores
+        function imprimir(){
+            const result = document.getElementById("result");
+            // Para sobreescribir necesitamos limpiarla antes de imprimir de nuevo
+            result.innerHTML = "";
+
+            if (libros.size === 0){
+                result.textContent = "No hay libros registrados";
+                return;
+            }
+
+            // Ordenar por título
+            const ordenado = Array.from(libros).sort(([a],[b]) => a.localeCompare(b));
+
+            /* 1º Forma
+            const ul = document.createElement("ul");
+
+            
+            const h2 = document.createElement("h2");
+            h2.textContent = `Listado de libros`;
+            ul.appendChild(h2);
+            
+
+            ordenado.forEach( ([titulo, i]) => {
+                const li = document.createElement("li");
+                li.textContent = `"${titulo}" por ${i.autor} (${i.anio})`;
+                ul.appendChild(li);
+            });
+
+            result.appendChild(ul);
+            */
+
+            /* 2º OFrma */
+            ordenado.forEach( ([titulo, i]) => {
+                const text = document.createElement("p");
+                text.textContent = `"${titulo}" por ${i.autor} (${i.anio})`;
+                result.appendChild(text);
+            });
+        }
+
+        document.getElementById("guardar").addEventListener("click", aniadir);
+        document.getElementById("mostrar").addEventListener("click", imprimir);
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Función que dibuja una tabla (DEL PROFE)</title>
+
+    <!--Importar archivo .js externo -->
+    <script src="dibujaTabla.js"></script>
+    <!-- Hay páginas que dicen que usan el defer
+        defer sirve para que cargue el script después de procesar el HTML
+      Aunque en este caso no se usa porque el navegador carga el script del archivo actual antes de la externa y por eso falla
+      
+      ChatGPT: el navegador descarga el archivo js, no lo ejecuta,
+        El externo lo deja en "pausa", primero deja que termine de procesar todo el HTML (head, body, todo)
+        Es decir, el script del html llama a la función creaTabla(), y como el JS externo no se cargará hasta que este finalice, 
+          entonces no existe y por eso el html no finaliza y por ende, el js no se ejecutará-->
+  </head>
+
+  <!--
++Práctica 5.2: Función que dibuja una tabla
+• Crea una función en JavaScript que nos permita dibujar una tabla en una página web
+• Como parámetros indicaremos el número de filas y de columnas con dos números.
+  Por defecto la función tomará 10 filas y 4 columnas
+• La tabla se crea con un borde negro de 1 píxel entre cada celda, 
+  pero un tercer parámetro permite indicar el color (por defecto será negro). 
+    El borde exterior medirá 3 píxeles y siempre será del mismo color que el borde de las celdas.
+• La tabla ocupará toda la anchura de la página
+• Usa la función para crear una tabla con borde negro de 10 filas y 4 columnas
+• Úsala de nuevo para generar una tabla de 20 filas y 10 columnas, con borde negro
+• Finalmente, consigue dibujar 10 tablas de 5 filas y 4 columnas que tengan borde verde.+++++++++++
+-->
+
+  <body>
+    <!--Contenedores-->
+    <div id="tabla1"></div>
+    <div id="tabla2"></div>
+
+    <!-- Contenedor 3: diez tablas verdes 5x4 -->
+    <div id="tabla3"></div>
+
+    <script>
+      //La función del profe tiene 4 parámetros (filas, columnas, color y componentes)
+      // Tabla de 10x4 negra
+      creaTabla();
+
+      // Tabla de 20x10 negra
+      creaTabla(20, 10, "black", "tabla2");
+
+      // 10 tablas verdes de 5x4 en el mismo contenedor
+      for (let i = 1; i <= 10; i++) {
+        creaTabla(5, 4, "green", "tabla3");
+      }
+    </script>
+  </body>
+</html>

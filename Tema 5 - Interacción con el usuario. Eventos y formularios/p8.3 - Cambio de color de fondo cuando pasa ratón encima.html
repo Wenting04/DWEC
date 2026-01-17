@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capa rollup</title>
+    <style>
+        #capa{
+        position:fixed;
+        width:50%;
+        height:50%;
+        left:25%;
+        top:25%;
+        border:1px solid black;         
+        }
+    </style>
+</head>
+
+<!-- Práctica 8.3: Capa rollup
+• Crear una aplicación web que muestre una capa centrada que ocupe el 50% del ancho
+    y el alto de la ventana.
+• Inicialmente la capa será blanca y solo se la verá el borde.
+• Al acercar el ratón se colorea de verde.
+• Al hacer clic encima con el botón principal se colorea de rojo, pero solo mientras el botón principal está abajo,
+    si está arriba, entonces se quita el color rojo.
+• Al hacer clic encima con el botón secundario ocurre lo mismo que en el caso anterior,
+    pero se muestra el color azul.
+No se mostrará en ningún caso el menú de contexto. -->
+
+<body>
+    <div id="capa"></div>
+</body>
+
+<script>
+    var capa=document.getElementById("capa");
+    capa.addEventListener("mouseenter",(ev)=>{
+        capa.style.backgroundColor="green";
+    });
+    capa.addEventListener("mouseleave",(ev)=>{
+        capa.style.backgroundColor="transparent";
+    });
+    capa.addEventListener("mousedown",(ev)=>{
+        if(ev.button==0)
+            capa.style.backgroundColor="red";
+        else if(ev.button==2)
+            capa.style.backgroundColor="blue";
+    });
+    capa.addEventListener("mouseup",(ev)=>{
+        capa.style.backgroundColor="green";
+    });
+
+    capa.addEventListener("contextmenu",(ev)=>{
+        ev.preventDefault();
+    })
+</script>
+
+</html>

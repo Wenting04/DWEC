@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+  <!--JavaScript-->
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lectura de números</title>
+
+    <!--
+    1. Lectura de números
+    2. Crea una página web que pida al usuario un número a través de un cuadro de lectura.
+    3. Un cuadro de mensaje indica si realmente era un número o no, lo que escribió el usuario.
+    4. Entrega el código utilizado , Html, JavaScript ...
+    -->
+  </head>
+  <body>
+    <script>
+      let num;
+      /*
+        Hay que declarar fuera del bucle pq si no sólamente existe dentro del bucle do while
+        Si no al llegar a los if, esta no funciona pq no existe dichos valores
+      */
+      do {
+        num = prompt("Introduce un número");
+        /*
+        E la diapositiva 9 de la presentación VARIABLES Y TIPOS DE DATOS
+        Menciona el Not a Number (NaN)
+        Existe otro que es isNaN -> is Not a Number? (No es un número?)
+        Por ejemplo:
+            if (isNaN(num)){
+                console.log("No es un número");
+                    //Si NO es número, entra aquí
+            }else{
+                console.log("Es un número");
+                    //Si SÍ es número, entra aquí
+            }
+        Y num1 = "123" y num2 = "abc"
+            num1 es convertible en número -> sí es número
+            num2 no es convertible en número -> no es número
+        */
+
+        /*
+        Comparaciones =, ==, ===
+            = -> asignar
+            == -> comparación
+            === -> comparación estricta
+        */
+
+        //Comparación estricta -> ===
+        if (num === "") {
+          alert("No introduciste nada");
+        }
+      } while (num === ""); //Repetir si usuario no introduce nada
+
+      if (isNaN(num)) {
+        //NO es número
+        alert(`El número introducido (${num}), no es un número`);
+        //Es la tecla de al lado del P -> `
+      } else {
+        //SÍ es número
+        alert(`El número introducido (${num}), sí es un número`);
+      }
+
+      /*
+      En la diapositiva 7 de la presentación VARIABLES Y TIPOS DE DATOS
+      Podemos tmb hacer que escupa el tipo de valor que es:
+
+        let texto = "hola";
+        console.log(texto.toUpperCase());   //"HOLA"
+        console.log(typeof texto);          //"string" (sigue siendo primitivo)
+      */
+    </script>
+  </body>
+</html>

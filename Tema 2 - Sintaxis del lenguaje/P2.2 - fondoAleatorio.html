@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color fondo aleatoriooo</title>
+
+    <!--Me da pereza tener un archivo externo,
+    pero si tuviera que hacerlo, entonces,
+    quito el <style> y pongo:
+        <link rel="stylesheet" href="archivo.css">
+    -->
+    <style>
+      * {
+        text-align: center; /*Centra todo el texto horizontalmente*/
+        color: white; /*que se vea mejor*/
+        transition: background-color 0.5s; /*Cuando cambia de color, que sea suave*/
+        /*El cambio de color se hace con php*/
+      }
+    </style>
+
+    <!--
+    1.Fondo aleatorio
+    2.Crea una página web que muestre un color de fondo aleatorio cada vez que entremos en ella.
+    3.Entrega el código utilizado , Html, JavaScript ...
+    -->
+  </head>
+
+  <body>
+    <h1>Cada vez que recargues la pág va a cambiar el color del fondo :P</h1>
+
+    <script>
+      //Como NetBeans
+      //Función para generar color aleatoriamente con RGB
+      function colorAleatorio() {
+        /*
+        Math.random()*256 -> Genera núm del 0 al 256 (con decimales)
+        _parseInt( Math_etc ) -> Para convertir el num decimal a entero
+        */
+
+        /*
+          const -> variable de sólo lectura o una constante (no modificable, ni reasignable)
+          Debe declararse al inicializarse
+        */
+        const rojo = parseInt(Math.random() * 256); //Valor máx es 255
+        const verde = parseInt(Math.random() * 256); //Por tanto queremos del 0 al 255
+        const azul = parseInt(Math.random() * 256);
+
+        return `rgb(${rojo}, ${verde}, ${azul})`;
+      }
+
+      document.body.style.backgroundColor = colorAleatorio();
+
+      /*Busqué otra manera por ChatGPT (esta tmb es por chatGPT, pq no sé cómo usar la función para ponerlo en style)
+        En vez de document.body.style.backgroundColor = colorAleatorio();
+        uso:
+            const estilo = dociment.getElementById('estilo-dinamico');
+            styleTag.innerHTML = `
+                body {
+                    text-align: center;
+                    font-family: Arial, sans-serif;
+                    color: white;
+                    background-color: ${colorAleatorio()};
+                    transition: background-color 0.5s;
+                }
+            ;
+      */
+    </script>
+  </body>
+</html>

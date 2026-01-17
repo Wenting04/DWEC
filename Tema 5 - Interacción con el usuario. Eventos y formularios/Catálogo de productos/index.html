@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de productos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Botón para añadir y mostrar un formulario para crear un nuevo producto -->
+    <button id="formAparecer">Añadir producto</button>
+
+    <!-- Formulario oculto -->
+    <form id="form" class="hidden">
+        <label for="id">ID</label>
+        <input type="text" id="id">
+
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre">
+
+        <label for="desc">Descripcion</label>
+        <textarea name="descripcion" id="desc" placeholder="Descripcion breve"></textarea>
+
+        <label for="precio">Precio</label>
+        <input type="number" name="precio" id="precio" step="0.01">
+
+        <label for="imagen">Imagen</label>
+        <input type="file" name="imagen" id="imagen">
+
+        <span class="error" id="error"></span>
+
+        <button type="submit" id="aniadir">Añadir</button>
+        <button type="button" id="cancelar">Cancelar</button>
+    </form>
+
+    <div id="cont">0 producto(s)</div>
+    <table id="catalogo"></table>
+    
+    <!-- ======================================================================================================================= -->
+
+    <!-- Enlace al archivo de JavaSript externo -->
+    <script src="script.js"></script>
+</body>
+</html>

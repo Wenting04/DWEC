@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adivina este número</title>
+
+    <style>
+      body {
+        align-items: center;
+        text-align: center;
+        background-color: blanchedalmond;
+
+        font-size: clamp(150%, 5vw, 25px);
+        /* clamp(min, preferido, max)
+        1. Nunca baja del min
+        2. Intenta usar el valor preferido
+        3. Nunca sube del max
+
+        En este caso:
+        1. min 150% -> Tamaño de letra no más pequeño del 150% en base del elemento padre
+            -> En pantallas muy pequeñas: texto no más pequeño del 150%
+
+        2. preferido 5vw -> Tamaño ideal se calcula con el ancho de la ventana (vw = viewport width)
+            5vw = 5% del ancho de la ventana
+            Ej: en pantalla de 1000px de ancho -> 5vw = 50px
+            -> En pantallas medianas: escala dinámicamente con el ancho (5vW)
+
+        3. max 25px -> Tamaño de letra nunca supera a más de 25px, aunque la pantalla sea enorme
+            ->En pantallas grandes: no más grande de 25px
+        */
+      }
+
+      button {
+        height: 5em;
+        width: 5em;
+        border-radius: 15%;
+        font-size: clamp(150%, 5vw, 25px);
+      }
+    </style>
+
+    <!-- Juego de adivinar número
+    Haz una página web que implemente un juego de encontrar un número aleatorio bajo las premisas que se explican a continuación.
+    1. La página calculará un número del 1 al 100.
+    2. Luego preguntará al usuario por el número.
+    3. Si el usuario escribe algo que no es un número, se indica el error y se vuelve a pedir el número.
+    4. Si el número escrito por el usuario es correcto, se indica que se acertó y finalizaremos el juego.
+    5. Si no, le dice si el número es menor o mayor y vuelve a preguntar cuál es.
+    6. Si se cancela cualquier cuadro, el juego termina indicando que se canceló el juego.
+    7. Al final, si se ha finalizado correctamente el juego se indica el número de intentos.
+    8. Se permite volver a jugar al usuario mediante un cuadro de confirmación.
+
+    9. Entrega el código utilizado , Html, JavaScript ...
+    -->
+  </head>
+  <body>
+    <h1>Adivina el número del 1 al 100 ^-^</h1>
+    <button id="iniciar" type="submit">Iniciar juego</button>
+
+    <script>
+      //Debería de hacerlo con fuction pero se me olvidó
+
+      const boton = document.getElementById("iniciar");
+      boton.addEventListener("click", jugar); //Cuando click en boton, ejecuta función
+
+      function jugar() {
+        boton.disabled = true; //Evita iniciar varias instancias a la vez si le da al botón de nuevo
+
+        let continuar = true; //Por ahora continuar es true hasta que el jugador diga lo contrario
+
+        do {
+          //Los datos que son definidos dentro del do while, sólo existirá dentro del do while, fuera de esta no
+
+          //Creo un booleano para saber si ya a acertado o no
+          let adivinado = false;
+          let cont = 0;
+          let num;
+          let cancelado = false; //Si se cancela en un cuadro promt
+
+          //1. La página calculará un número del 1 al 100.
+          let numAle = parseInt(Math.random() * 100 + 1);
+
+          //El bucle se repite mientras sea !adivinado = es decir, que sea false
+          while (!adivinado) {
+            do {
+              //2. Luego preguntará al usuario por el número.
+              num = prompt("Inserte número del 1 al 100"); //Introduce tipo string
+
+              //6.a Si se cancela cualquier cuadro, el juego termina indicando que se canceló el juego.
+              if (num === null) {
+                cancelado = true;
+                break; //No suelo usarlo pero como no tengo más tiempo, no se me ocurre qué otra forma salirme
+              }
+
+              //Convertir string a número
+              num = parseInt(num);
+
+              //3. Si el usuario escribe algo que no es un número, se indica el error y se vuelve a pedir el número.
+              if (isNaN(num)) alert("No es un número");
+              else if (num < 1 || num > 100) {
+                alert(
+                  "El número introducido no está dentro del rango [1..100]"
+                );
+
+                /*
+                O podría aquí dentro poner que num = NaN para forzar la repetición
+                */
+              }
+            } while (isNaN(num) || num < 1 || num > 100); //Bucle se repetirá si no es número
+
+            //Es mejor después de que usuario introduzca dato para no cometer error de intentos cancelado su etc
+            cont++; //Mínimo hay 1 intento
+
+            //6.b Si se cancela cualquier cuadro, el juego termina indicando que se canceló el juego.
+            if (cancelado) {
+              break; //Salir forzosamente del bucle while(!adivinado)
+            }
+
+            //4. Si el número escrito por el usuario es correcto, se indica que se acertó y finalizaremos el juego.
+            //5. Si no, le dice si el número es menor o mayor y vuelve a preguntar cuál es.
+            if (numAle === num) {
+              adivinado = true;
+            } else {
+              if (num < numAle) {
+                alert("Es mayor, vuelve a intentarlo");
+              } else {
+                alert("Es menor, vuelve a intentarlo");
+              }
+            }
+          }
+
+          ////6.c Si se cancela cualquier cuadro, el juego termina indicando que se canceló el juego.
+          if (cancelado) {
+            alert("Se canceló el juego");
+            continuar = false;
+            break; //Forzar salida
+          } else {
+            //7. Al final, si se ha finalizado correctamente el juego se indica el número de intentos.
+            alert(
+              `Correcto, es el número ${numAle}. Acertaste en ${cont} intentos, enhorabuena`
+            );
+          }
+
+          //8. Se permite volver a jugar al usuario mediante un cuadro de confirmación.
+          continuar = confirm("¿Desea jugar otra ronda?");
+        } while (continuar);
+
+        boton.disabled = false; //Reactivar el botón
+      }
+    </script>
+  </body>
+</html>

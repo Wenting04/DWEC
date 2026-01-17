@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calcular salarios</title>
+
+    <style>
+      body {
+        background-color: lightblue;
+        align-items: center;
+        text-align: center;
+      }
+
+      h1 {
+        background-color: lightgoldenrodyellow;
+      }
+
+      h2 {
+        background-color: lightblue;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+      }
+
+      .datos {
+        display: flex;
+      }
+
+      .boton {
+        padding: 25px;
+      }
+
+      .resultados {
+        background-color: lightgoldenrodyellow;
+        border-radius: 5px;
+        padding: 15px;
+      }
+    </style>
+
+    <!--
+    1.Cálculo de salario
+    2.Crea una aplicación web que pida, en sendos cuadros de lectura de datos: el nombre, los apellidos, el salario (número con decimales) y la edad de una persona (un número)
+    3.Supondremos que el usuario escribe los datos correctamente (no los validaremos)
+    4.La página indicará el nombre y apellidos escritos, la edad y el salario (una vez recalculado con lo que indican los puntos siguientes).
+    5.Si el salario es mayor de 2000 euros, no cambiará
+    6.Si el salario está entre 1000 y 2000:
+    - Si además la edad es mayor de 45 años, se sube un 3%
+    - Si la edad es menor de 45 o igual, se sube un 10%
+    7.Si el salario indicado es menor de 1000
+    - Los menores de 30 años cobrarán exactamente 1100 euros
+    - Si la edad es de 30 a 45 años, el salario sube un 3%
+    - A los mayores de 45 años, sube un 15%
+    8.Entrega el código utilizado , Html, JavaScript ...
+    -->
+  </head>
+
+  <body>
+    <h1>Cálculo de salario</h1>
+
+    <!--Formulario-->
+
+    <!--ponerle id para usarlo en el script -> getElementById-->
+    <form id="formulario">
+      <div class="datos">
+        <label>
+          Nombre:
+          <input type="text" id="name" required />
+        </label>
+
+        <label>
+          Apellido:
+          <input type="text" id="surname" required />
+        </label>
+
+        <!--
+      Permita decimales -> step=0.01 (ChatGPT)
+      step en un input -> restringe entrada de múltiplos específicos
+        Permite valor como mñultiplos de 2 o 0.01
+        Ej: si step="10" -> permite múltiplos de 10 = 0, 10, 20
+      any -> para permitir cualquier valor
+        Ej: si step="any" -> permite cualquier número decial, no solo enteros
+      Ej: type="number" min="1" max="10" step="2" -> 1, 3, 5, 7, 9, ...
+      En fecha y hora
+        type="date" step="2" -> permite fechas de intervalos de 2 días (25, 27, 29 de febrero)
+      -->
+        <label>
+          Salario: &nbsp;
+          <input type="number" id="sal" step="0.01" required />
+        </label>
+
+        <label>
+          Edad: &nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="number" id="age" required />
+        </label>
+      </div>
+
+      <div class="boton">
+        <!--Botón de finalizar
+        submit para enviar datos de formulario
+            Al hacer clic, recopila y envía toda la info rellenada al server
+            Tmb podemos a una dirección de web especificada usando action en el formulario
+            Después de darle, la página se autoactualiza
+        -->
+
+        <button type="submit">Calcular</button>
+      </div>
+    </form>
+
+    <!--FIN Formulario-->
+
+    <!--aria-live es para que el usuario espere mientras esto se procese (el script)-->
+    <div id="resultado" aria-live="polite"></div>
+
+    <script>
+      /*En JavaScript
+          1. Con submit recopilamos info
+          2. Hay que hacer que lea los datos
+          3. Convertir los type="number" a números
+          4. Recalcular salario con lo que ponga el enunciado
+          5. Mostrar resultado
+          */
+
+      let salNuevo;
+
+      //Definir
+      let formulario = document.getElementById("formulario");
+      let resultado = document.getElementById("resultado");
+
+      /*Captura envío y evita recarga de la página
+        En js el addEventListener('subtmit', ...),
+          dentro de esta usamos event.preventDefault()
+          -> Evita que formulario intente enviar datos y recargue la página (nuestro código procesará los valores en la misma página)
+
+        Para poder usar el form, hay que definirlo
+      */
+
+      /*
+    Sin addEventListener("submit", ...) y das clic en el botón,
+        En el script tendría la función calcular()
+        Funciona pero es menos recomendable pq se mezcla HTML con js (HTML sólo muestra y js controla lógica)
+    
+    Sin event.preventDefault()
+        Cuando en un formulario le das al botón de enviar (submit)
+        El navegador recarga la página y se pierde lo que se haya calculado con js
+            Al recargarse, todo vuelve a blanco
+        
+    */
+      formulario.addEventListener("submit", function (event) {
+        /*elemento.addEventListener("evento", function (event) {
+            Añado aquí lo que quiero que pase cuando ocurra este evento
+        });
+        
+        Ejemplo:
+        //Cuando usuario clic en el botón
+        boton.addEventListener("click", function(){
+            alert("Hiciste clic");
+        });
+
+        //Cuando usuario envía formulario
+        formulario.addEventListener("submit", function(event){
+            event.preventDefault(); //Evita recargar
+            alert("Formulario enviado");
+        });
+        */
+        event.preventDefault(); //Evita que formulario recargue la página
+
+        /*Para convertir en número:
+          Number(): let numero = Number("100")
+          parseInt(): let entero = parseInt("50")
+          parseFloat(): let decimal = parseFloat("75.5")
+          Con el operador unario +: let resultado = +"25"
+        */
+        //Leer valores (tiene que estra dentro del addEventListener)
+        let nombre = document.getElementById("name").value;
+        let apellido = document.getElementById("surname").value;
+        let salario = parseFloat(document.getElementById("sal").value); //Convertir texto en decimal
+        let edad = parseInt(document.getElementById("age").value); //Convertir en entero
+        /*
+        Cuando usamos sólo document.getElementById("...") -> obtenemos referencia al elemento HTML (por ejemplo, un <input>)
+        Con .value, se refuere al contenido escrito por el user
+        */
+
+        /*
+        6.Si el salario está entre 1000 y 2000:
+        - Si además la edad es mayor de 45 años, se sube un 3%
+        - Si la edad es menor de 45 o igual, se sube un 10%
+        7.Si el salario indicado es menor de 1000
+        - Los menores de 30 años cobrarán exactamente 1100 euros
+        - Si la edad es de 30 a 45 años, el salario sube un 3%
+        - A los mayores de 45 años, sube un 15%
+        */
+
+        //Otra forma de hacer el cálculo: dentro de una function (nombre), poner lo siguiente y aquí resumimos cosas
+        if (salario > 2000) {
+          //Salario mayor a 2000
+          salNuevo = salario;
+        } else if (salario >= 1000 && salario <= 2000) {
+          //Salario entre 1000 y 2000 (incluyendolos)
+          if (edad > 45) {
+            //Si tiene más de 45 años
+            salNuevo = salario * 1.03;
+          } else {
+            //Si tiene menos o igual a 45 años
+            salNuevo = salario * 1.1;
+          }
+        } else if (salario < 1000) {
+          //Salario menos de 1000
+          if (edad < 30) {
+            //Si edad menos de 30
+            salNuevo = 1100;
+          } else if (edad >= 30 && edad <= 45) {
+            //Si edad entre 30 y 45 (incluyendolos)
+            salNuevo = salario * 1.03;
+          } else if (edad > 45) {
+            //Si edad más de 45
+            salNuevo = salario * 1.15;
+          }
+        }
+
+        //Mostrar resultado con datos (template strings)
+        //Recordar definir variable resultado (arriba en formulario.addEventListener está)
+        resultado.innerHTML = `
+        <div class="resultados">
+          <h2>Resultados</h2>
+          <p>Nombre: ${nombre} ${apellido}</p>
+          <p>Edad: ${edad} años</p>
+          <p>Salario original: ${salario}€</p>
+          <p>Salario final: ${salNuevo}€</p>
+        </div>
+          `;
+        //Recordar usar ``
+
+        /* Otras formas de imprimir
+        Para imprimir tmb puedo usar .textContent (si es sólo texto y no HTML)
+          resultado.textContent = `Nombre: ${nombre} ${apellido}, Edad: ${edad}, Salario final: ${salNuevo}€`;
+
+        getElementById -> Para apuntar al elemento HTML que quiero modificar
+        .innerHTML -> Para inyectar HTML dentro de ese elemento
+        .textContent -> Pone sólo texto plano
+        */
+      });
+    </script>
+  </body>
+</html>

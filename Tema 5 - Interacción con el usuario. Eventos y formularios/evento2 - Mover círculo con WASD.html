@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!-- Ahora veremos los eventos del teclado. 
+Para completar esta tarea,
+    cree un oyente de eventos que mueva el círculo alrededor del lienzo
+    proporcionado cuando se presionen las teclas WASD en el teclado.
+
+El círculo se dibuja con la función drawCircle(),
+    que toma como entradas los siguientes parámetros: 
+ x— la coordenada x del círculo. 
+ y— la coordenada y del círculo. 
+ size— el radio del círculo.
+
+Advertencia:
+    Al probar su código,
+    tendrá que centrarse en el lienzo antes de probar los comandos del teclado
+    (por ejemplo, haga clic en él o en la pestaña con el teclado).
+    De lo contrario no funcionarán -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento 2 - Mover un círculo con WASD</title>
+</head>
+<body>
+    <!-- Canva sirve como superficie de dibujo -->
+    <canvas width="480" height="320" tabindex="0"> </canvas>
+
+    <script>
+        const canvas = document.querySelector("canvas");
+
+        // Crea contexto de dibujo 2D
+        const ctx = canvas.getContext("2d");
+
+        // Borra la pantalla, luego dibuja un círculo negro en la posición indicada
+        function drawCircle(x, y, size) {
+            // Pinta todo el fondo de blanco
+            ctx.fillStyle = "white";
+            // fillRect -> Dibuja un rectángulo que cubre todo el área => Limpia la pantalla
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // beginPath() -> Empieza un nuevo dibujo
+            ctx.beginPath();
+            ctx.fillStyle = "black";
+            // arc() -> dibuja un círculo con posiciones (x, y) y size de radio
+            ctx.arc(x, y, size, 0, 2 * Math.PI);
+            // fill() -> rellena el círculo
+            ctx.fill();
+        }
+
+        // Posición y radio
+        let x = 50;
+        let y = 50;
+        const size = 30;
+
+        // Llama la función
+        drawCircle(x, y, size);
+        // Don't edit the code above here!
+
+        // Add your code here
+
+        // Le decimos que cuando se presione una tecla en cualquier parte de la página, se ejecuta dicha función
+        // Al ser windows siempre escucha todas las teclas
+        /* Nombre de los eventos:
+            - keydown: se acaba de presionar una tecla
+            - keyup: se soltó una tecla
+            - keypress: se mantiene presionada */
+        /* (e) -> parámetro que recibe la función, podemos llamarlo como queramos */
+        window.addEventListener("keydown", (e) => {
+            // Depende de lo que pulsemos de teclado (WASD)
+            switch (e.key) {
+                case "a":
+                    x -= 5;
+                    break;
+                case "d":
+                    x += 5;
+                    break;
+                case "w":
+                    y -= 5;
+                    break;
+                case "s":
+                    y += 5;
+                    break;
+            }
+
+            drawCircle(x, y, size);
+        });
+    </script>
+</body>
+</html>

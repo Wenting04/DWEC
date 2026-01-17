@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro</title>
+
+    <style>
+      body {
+        background-color: blue;
+        font-family: "Times New Roman", Times, serif;
+      }
+
+      h1 {
+        padding-right: 45px;
+        color: yellow;
+        margin: 0;
+      }
+
+      #usuario {
+        /* margin-top: auto; // Empuja arriba */
+        display: flex;
+        flex-direction: column; /* "Usuario" arriba, botones y formulario abajo */
+        align-items: flex-end; /* Todo a la derecha */ /* Donde situarlo */
+        padding-right: 50px;
+      }
+
+      #botones {
+        margin: 0;
+        gap: 5px; /* Espacio entre los elementos */
+        display: flex; /* Para que estén alineados */
+        padding-top: 5px;
+      }
+
+      button {
+        padding: 3px 10px; /* Tamaño de la caja de botón */
+        border: 1px solid #888;
+        border-radius: 3px;
+        cursor: pointer; /*  */
+      }
+
+      /* Al pasar puntero, se cambia */
+      button:hover {
+        background-color: #cdcdcd;
+      }
+
+      /* - -- Formulario -- - */
+
+      #formularioRegistro {
+        display: none;
+        margin-top: 10px; /* Espacio que hay arriba (fuera de la caja) */
+        padding: 10px; /* Tamaño de la caja (no afecta lo de dentro) [Más bien es la distancia del alrededor del contenido que hay dentro]*/
+        border-radius: 5px; /* Bordes de la caja de registro */
+        width: 250px; /* Ancho */
+        background-color: #f9f9f9;
+      }
+
+      /* Para que aparezca cuando le das click, pero con JavaScript no es necesario
+      #formularioRegistro:active {
+        display: block;
+      }
+      */
+
+      label {
+        display: block;
+        margin-top: 5px;
+      }
+
+      input {
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="usuario">
+      <h1>Usuario</h1>
+      <div id="botones">
+        <button id="btnRegistrar">Registrarse</button>
+        <button id="btnEntrar">Entrar</button>
+      </div>
+
+      <div id="formularioRegistro">
+        <label for="nombre">Nombre: </label>
+        <input type="text" id="nombre" />
+
+        <label for="contra">Contraseña: </label>
+        <input type="password" id="contra" />
+
+        <div id="botones">
+          <button id="btnAceptar">Aceptar</button>
+          <button id="btnCancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* - -- Obtener datos, aparecer y desapareer formulario de registro y validar nombre y contraseña -- - */
+
+      // Obtener datos (usar id)
+      const nombre = document.getElementById("nombre");
+      const contra = document.getElementById("contra");
+      const btnRegistrar = document.getElementById("btnRegistrar");
+      const formRegistrar = document.getElementById("formularioRegistro");
+      const btnCancelar = document.getElementById("btnCancelar");
+
+      // Mostrar formulario al pulsar "Registrarse"
+      /* El formulario (#formularioRegistro) estaba display = none, aquí hacemos que se cambie a block */
+      btnRegistrar.addEventListener("click", () => {
+        formRegistrar.style.display = "block";
+        /* Si el botón está dentro de un <form> o e sun submit, al hacer click puede recargar la página antes de ver el cambio */
+      });
+
+      // Ocultar con botón "Cancelar"
+      btnCancelar.addEventListener("click", () => {
+        formRegistrar.style.display = "none";
+      });
+
+      // Validaciones según el enunciado
+      function validarNombre(nombre) {
+        /* 8-12 carácteres:
+            3 primeros son letras => [A-Za-z]{3}
+            Resto son letras o números => [A-Za-z0-9_]{5,11} => dentro de {} se pone carácteres que ocupará desde la anterior "norma" */
+
+        return /^[A-Za-z]{3}[A-Za-z0-9]{5,9}$/.test(nombre);
+      }
+
+      function validarContra(contra) {
+        /* 8 y 14 carácteres:
+            ^ => inicio del string
+            2 primeros son letras => [A-Za-z]{2}  ; {2} => 2 carácteres
+            Último es letra o dígito => [A-Za-z0-9]
+            Resto son letras, dígito o "_" => [A-Za-z0-9_]{5,11} => dentro de {} se pone carácteres que ocupará desde la anterior "norma"
+            $ => fin del string */
+
+        return /^[A-Za-z]{2}[A-Za-z0-9_]{5,11}[A-Za-z0-9]$/.test(nombre);
+      }
+
+      /* - -- Obtengo los demás elementos faltantes -- - */
+      const btnAceptar = document.getElementById("btnAceptar");
+      const btnEntrar = document.getElementById("btnEntrar");
+      let usuarioActual = document.querySelector("#user h1"); // Muestra nombre
+      const btnAddMsg = document.createElement("button"); // Botón adicional
+
+      /* - -- Crea botón "Añadir mensaje" inicialmente desactivado (enunciado) -- - */
+      btnAddMsg.textContent = "Añadir mensaje";
+      btnAddMsg.disabled = true; // Inicialmente desactivada
+      document.body.appendChild(btnAddMsg);
+
+      /* - -- Funciones para cookies -- - */
+      function setCookie(nombre) {
+        const fecha = new Date();
+        fecha.setTime(fecha.getTime() + dias * 24 * 60 * 60 * 1000);
+        document.cookie = `${nombre}=${valor};expires=${fecha.toUTCString()};path=/`;
+      }
+
+      function getCookie(nombre) {
+        const cookies = document.cookie.split("; ");
+
+        for (let c of cookies) {
+          const [key, value] = c.split("=");
+          if (key === nombre) return value;
+        }
+
+        return null;
+      }
+
+      /* - -- Registro de usuario, al pulsar Aceptar en el formulario de registros -- - */
+      btnAceptar.addEventListener("click", () => {
+        const nombreVal = nombre.value;
+        const contraVal = contra.value;
+
+        if (!validarNombre(nombreVal)) {
+          alert(
+            "Nombre inválido: debe tener 8-12 carácteres, 3 letras iniciales y el resto letras o números"
+          );
+          return;
+        }
+
+        if (!validarContra(contraVal)) {
+          alert(
+            "Contraseña inválida: 8-14 carácteres, 2 letras iniciales, última letra o número, resto letras, números o _"
+          );
+          return;
+        }
+
+        // Crear cookie con nombre y contraseña
+        setCookie(nombreVal, contraVal);
+
+        // Ocultar formulario
+        formRegistrar.style.display = "none";
+
+        // Limpiar campos
+        nombre.value = "";
+        contra.value = "";
+        alert("Usiario registrado correctamente");
+      });
+
+      /* - -- Al pulsar Entrar, mostrar mismo formualrio -- - */
+    </script>
+  </body>
+</html>
