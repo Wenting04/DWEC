@@ -1,0 +1,41 @@
+<!-- INFO SACADA DE: https://leafletjs.com/examples/quick-start/ -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa con Leaflet, LocalStorage y Canvas</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="map"></div>
+
+    <div class="datos">
+        <!-- Mostrar coordenadas -->
+        <div id="marcadores">
+            <label>Latitud:
+                <input type="text" id="latitud" readonly>
+            </label>
+            <label>Longitud:
+                <input type="text" id="longitud" readonly>
+            </label>
+        </div>
+
+        <!-- Mostrar coordenadas guardadas -->
+        <div> <canvas id="canvas"></canvas> </div>
+    </div>
+    <!-- Archivo JS -->
+    <script src="script.js"></script>
+</body>
+</html>

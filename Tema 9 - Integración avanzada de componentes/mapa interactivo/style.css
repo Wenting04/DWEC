@@ -1,0 +1,34 @@
+/* Fondo */
+
+body {
+    background-color: #e7e7e7;
+}
+
+.datos {
+    
+    font-family: system-ui, sans-serif;
+    padding: 15px;
+    gap: 10px; /* Espacio entre elementos */
+
+    display: flex;
+    flex-direction: column; /* Elementos en columna */
+    align-items: center;    /* Centrar horizontalmente */
+}
+
+/* Tarjetas */
+.datos div {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+/* Mapa */
+#map { height: 180px; }
+
+/* Coordenadas */
+#marcadores {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
