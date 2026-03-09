@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video en pantalla completa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <video id="myVideo" muted> <!-- Es posible poner autoplay al lado del muted en vez de en JS -->
+        <source src="./video.mp4" type="video/mp4">
+        <p>Su navegador no soporta video HTML5</p> <!-- Call back -->
+    </video>
+    <div id="duracion" class="hidden"></div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

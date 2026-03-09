@@ -1,0 +1,40 @@
+:root {
+    --color-bg: rgba(0, 0, 0, 0.75);
+    --color-text: white;
+}
+
+body {
+   /*overflow: hidden; /* Evitar scroll */
+    padding: 0;
+    margin: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    min-height: 100vh; /* OBLIGATORIO Para que haya epacio donde centrar */
+}
+
+video {
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover; /* Estando dentro del contenedor, corta lo que no entra */
+    z-index: 1; /* Capa del fondo */
+}
+
+.hidden {
+    display: none;
+}
+
+div {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    padding: 10px;
+    border-radius: 10px;
+    border: 3px solid var(--color-text);
+}
+
+#duracion {
+    position: absolute; /* Para moverlo sobre el video */
+    z-index: 2; /* Capa arriba del video */
+    font-weight: bold;
+}

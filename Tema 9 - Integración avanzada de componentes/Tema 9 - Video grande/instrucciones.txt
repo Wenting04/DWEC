@@ -1,0 +1,29 @@
+Mostrar un video que hayas descargado de modo que ocupe toda la ventada (todo el body) pero sin deformarse.
+- No deseamos que aparezcan controles
+- Queremos que al hacer clic directamente en el video, el video se reproduzca o pare. Cada clic cambia de un estado a otro
+- Inicialmente queremos que el vídeo se reproduzca automáticamente
+- Al pulsar el botón derecho queremos que un texto centrado nos diga el tiempo total del video en minutos y segundos. Si volvemos a pulsar el botón derecho, este panel se oculta de nuevo
+Así sucesivamente:
+
+
+Bibliografía (lo que usé además de la IA):
+- Controles de video
+    https://www.w3schools.com/jsref/prop_video_controls.asp
+- Redimensionar img o video
+    https://www.w3schools.com/css/css3_object-fit.asp
+- Video reproducir o pausar (viene el código entero en el 1º)
+    https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play
+    https://stackoverflow.com/questions/63967868/how-to-make-video-play-only-when-a-button-is-clicked-in-javascript
+- Muteado
+    https://www.w3schools.com/jsref/prop_audio_muted.asp
+- Hallar duración de video
+    https://developer.mozilla.org/en-US/docs/Web/API/VideoFrame/duration
+- contextmenu
+    https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event
+- Duración de video o audio 
+    https://www.w3schools.com/tags/av_prop_duration.asp
+- Calcular horas, min o segundos
+    https://desarrolloweb.com/faq/convertir-segundos-en-horas-minutos-y-segundos-en-javascript
+- Contenido y audio en web (HTML5)
+    https://developer.mozilla.org/es/docs/Learn_web_development/Core/Structuring_content/HTML_video_and_audio
+Recordar implementar poster
